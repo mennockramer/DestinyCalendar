@@ -1,0 +1,11 @@
+<tr>
+<td>Week <%= week %></td>
+
+  <% [*1..7].each do |day| %>
+    <%= render partial: 'day',  locals: {day: day} %>
+  <% end %>
+</tr>
+
+
+
+

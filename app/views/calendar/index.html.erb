@@ -1,4 +1,26 @@
-<h1>Calendar#index</h1>
-<p>Find me in app/views/calendar/index.html.erb</p>
+Weekly Dungeon Rotator<br>
+<%= @weekly_dungeon_rotator_name%><br>
+<br>
+Weekly Raid Rotator<br>
+<%= @weekly_raid_rotator_name%><br>
+<br>
+<br>
 
-<%= @response%>
+Season <%= @current_season_number%>: <%= @current_season_name%>
+<table>
+  <tr>
+    <th>Week</th>
+    <th>Tuesday</th>
+    <th>Wednesday</th>
+    <th>Thursday</th>
+    <th>Friday</th>
+    <th>Saturday</th>
+    <th>Sunday</th>
+    <th>Monday</th>
+  </tr>
+  <% [*1..12].each do |week| %>
+    <%= render partial: 'week',  locals: {week: week} %>
+  <% end %>
+</table>
+
+

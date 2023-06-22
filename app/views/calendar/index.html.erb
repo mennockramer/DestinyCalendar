@@ -6,19 +6,19 @@ Weekly Raid Rotator<br>
 <br>
 <br>
 
-Season <%= @current_season_number%>: <%= @current_season_name%>
-<table>
+Season <%= @current_season_number%>: <%= @current_season_name%>: <%= @current_season_start%> - <%= @current_season_end%>
+<table class="calendar">
   <tr>
-    <th>Week</th>
-    <th>Tuesday</th>
-    <th>Wednesday</th>
-    <th>Thursday</th>
-    <th>Friday</th>
-    <th>Saturday</th>
-    <th>Sunday</th>
-    <th>Monday</th>
+    <th class="calendar">Week</th>
+    <th class="calendar">Tuesday</th>
+    <th class="calendar">Wednesday</th>
+    <th class="calendar">Thursday</th>
+    <th class="calendar">Friday</th>
+    <th class="calendar">Saturday</th>
+    <th class="calendar">Sunday</th>
+    <th class="calendar">Monday</th>
   </tr>
-  <% [*1..12].each do |week| %>
+  <% @current_season_start.upto(@current_season_last_day).each_slice(7) do |week|%>
     <%= render partial: 'week',  locals: {week: week} %>
   <% end %>
 </table>

@@ -1,7 +1,14 @@
 <tr>
-<td>Week <%= week %></td>
+<td class="calendar">
+  Week <%= @current_season_start.step(week[0], 7).count%><br>
 
-  <% [*1..7].each do |day| %>
+  <% Calendar::WeeklyEntry.where(start_date: week[0]).each do |entry|%>
+    <%= entry.name%>
+  <%end%>
+
+</td>
+
+  <% week.each do |day| %>
     <%= render partial: 'day',  locals: {day: day} %>
   <% end %>
 </tr>

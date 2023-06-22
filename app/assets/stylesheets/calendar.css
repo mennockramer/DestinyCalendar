@@ -1,0 +1,17 @@
+body {
+  color: white;
+  background-color: black;
+  /* yeah, dark mode. fight me, light mode users */
+}
+
+table.calendar {
+  width: 100%;
+}
+td.calendar {
+  text-align: center
+}
+
+table.calendar, th.calendar, td.calendar {
+  border: 1px solid white;
+  vertical-align: top;
+}

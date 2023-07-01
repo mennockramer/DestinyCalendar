@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_06_18_095354) do
-  create_table "entries", force: :cascade do |t|
+  create_table "calendar_entries", force: :cascade do |t|
     t.string "name"
     t.string "icon_path"
     t.date "start_date"

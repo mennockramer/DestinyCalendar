@@ -1,0 +1,34 @@
+<%= form_with model: calendar_entry do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+    <% calendar_entry.errors.full_messages_for(:name).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :icon_path %><br>
+    <%= form.text_area :icon_path %><br>
+    <% calendar_entry.errors.full_messages_for(:icon_path).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :start_date %><br>
+    <%= form.date_select :start_date, order: [:year, :month, :day], default: Date.today %>
+    <% calendar_entry.errors.full_messages_for(:start_date).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :type %><br>
+    <%= form.select :type, ['DailyCalendarEntry', 'WeeklyCalendarEntry', 'EventCalendarEntry'], selected: 'DailyCalendarEntry' %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

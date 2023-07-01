@@ -1,0 +1,15 @@
+<h1>Calendar Entries</h1>
+
+<ul>
+  <% @calendar_entries.each do |calendar_entry| %>
+      <li>
+        <%= link_to calendar_entry.name, calendar_entry %>
+      </li>
+  <% end %>
+</ul>
+
+<%= link_to "New Calendar Entry", new_calendar_entry_path %><br>
+
+
+
+<%= link_to "Return to Calendar", calendar_index_path %>

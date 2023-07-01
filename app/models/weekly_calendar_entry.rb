@@ -1,4 +1,4 @@
-class Calendar::WeeklyEntry < Calendar::Entry
+class WeeklyCalendarEntry < CalendarEntry
   def end_date
     start_date + 1.weeks
   end

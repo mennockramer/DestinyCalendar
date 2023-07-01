@@ -1,0 +1,14 @@
+<h1><%=@calendar_entry.type%>: <%= @calendar_entry.name %></h1>
+
+<p><%= @calendar_entry.start_date %> to <%= @calendar_entry.end_date %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_calendar_entry_path(@calendar_entry) %></li>
+  <li><%= link_to "Destroy", calendar_entry_path(@calendar_entry), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+</ul>
+
+
+<%= link_to "Return to Calendar Entry List", calendar_entries_url%>

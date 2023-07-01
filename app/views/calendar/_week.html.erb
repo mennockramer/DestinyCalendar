@@ -2,8 +2,8 @@
 <td class="calendar">
   Week <%= @current_season_start.step(week[0], 7).count%><br>
 
-  <% Calendar::WeeklyEntry.where(start_date: week[0]).each do |entry|%>
-    <%= entry.name%>
+  <% WeeklyCalendarEntry.where(start_date: week[0]).each do |calendar_entry|%>
+    <%= calendar_entry.name%>
   <%end%>
 
 </td>

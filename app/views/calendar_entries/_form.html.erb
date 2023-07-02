@@ -25,7 +25,7 @@
 
   <div>
     <%= form.label :type %><br>
-    <%= form.select :type, ['DailyCalendarEntry', 'WeeklyCalendarEntry', 'EventCalendarEntry'], selected: 'DailyCalendarEntry' %>
+    <%= form.select :type, ['DailyCalendarEntry', 'WeeklyCalendarEntry', 'EventCalendarEntry'], selected: calendar_entry.type %>
   </div>
 
   <div>

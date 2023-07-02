@@ -42,7 +42,7 @@ class CalendarEntriesController < ApplicationController
     @calendar_entry = CalendarEntry.find(params[:id])
     @calendar_entry.destroy
 
-    redirect_to root_path, status: :see_other
+    redirect_to calendar_entries_url, status: :see_other
   end
 
   private

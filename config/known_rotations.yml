@@ -1,0 +1,70 @@
+---
+#data sourced from https://docs.google.com/spreadsheets/d/19jHW9T7uCtOenV5ISaWVverG-zPZA4ksKZimgKH1Ve8/edit#gid=43743901
+ season-21:
+  raids:
+   - Last Wish
+   - Garden of Salvation
+   - Deep Stone Crypt
+   - Vault of Glass
+   - Vow of the Disciple
+   - King's Fall
+  dungeons:
+   - Duality
+   - Spire of the Watcher
+   - Pit of Heresy
+   - Shattered Throne
+   - Prophecy
+   - Grasp of Avarice
+  legend-lost-sector-locations:
+   - K1 Revelation (Moon)
+   - K1 Crew Quarters (Moon)
+   - K1 Logistics (Moon)
+   - K1 Communion (Moon)
+   - Sepulcher (Throne World)
+   - Extraction (Throne World)
+   - Aphelion's Rest (Dreaming City) 
+   - Chamber of Starlight (Dreaming City) 
+   - Bay of Drowned Wishes (Dreaming City)
+   - Veles Labyrinth (Cosmodrome)
+   - Exodus Garden 2A (Cosmodrome)
+  crucible-party:
+   - Momentum Control
+   - Mayhem
+   - Team Scorched
+  crucible-relentless:
+   - Rift
+   - Zone Control
+   - Clash
+   - Supremacy
+  nightfall-strike:
+   - The Devil's Lair
+   - The Corrupted
+   - The Disgraced
+   - The Lightblade
+   - Fallen S.A.B.E.R.
+   - PsiOps Battleground Moon
+  nightfall-weapons:
+   - Buzzard 
+   - Hung Jury SR4
+   - The Swarm
+   - Wendigo GL3
+   - Loaded Question
+   - Braytech Osprey
+  
+ permanent:
+  legend-lost-sector-armour-slots:
+   - Chest
+   - Helm
+   - Legs
+   - Arms
+  terminal-overload:
+   - Zephyr Concourse (Circular Logic)
+   - Ahimsa Park (Basso Ostinato)
+   - Límíng Harbor (Synchronic Roulette)
+  wellspring:
+   - "Defend: Zeerik (Father's Sins)"
+   - "Attack: Golmag (Come to Pass)"
+   - "Defend: Vezzul (Tarnation)"
+   - "Attack: Bo'gong (Fel Taradiddle)"
+  #raid-challenges #worth adding?
+

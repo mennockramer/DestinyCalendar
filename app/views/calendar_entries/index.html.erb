@@ -3,7 +3,7 @@
 <ul>
   <% @calendar_entries.each do |calendar_entry| %>
       <li>
-        <%= link_to calendar_entry.name, calendar_entry %>
+        <%= link_to (calendar_entry.name+": "+ calendar_entry.start_date.to_s), calendar_entry %> 
       </li>
   <% end %>
 </ul>

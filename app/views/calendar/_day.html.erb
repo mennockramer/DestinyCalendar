@@ -1,4 +1,4 @@
-<td class="calendar"<%= ", bgcolor=grey" if (DateTime.now.utc > day.to_datetime + 17/24r) && (DateTime.now.utc < day.to_datetime + 41/24r) %>>
+<td class="calendar"<%= ", bgcolor=grey" if day == @destiny_today %>>
 <%= day %>
  <% DailyCalendarEntry.where(start_date: day).each do |calendar_entry|%><br>
     <%= calendar_entry.name%>

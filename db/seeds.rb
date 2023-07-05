@@ -33,76 +33,47 @@ end
 # import known rotations from file
 known_rotations = YAML::load(open([Rails.root, "config/known_rotations.yml"].join("/")))
 
-#Current Raid and Dungeon
+#Current values
 current_dungeon_rotator_name = ""
 current_raid_rotator_name = ""
+current_nightfall_strike_rotator_name = ""
 
-Restiny.get_profile(4611686018483247082, 3 , [202]).dig(
-  "characterProgressions","data","2305843009402586408","milestones"
-).each { |m, mi|
-  if mi["startDate"]
-    if mi["startDate"]< Time.now && Time.now < mi["endDate"]
-      result = DESTINY_MANIFEST.milestone(mi["milestoneHash"])
-      unless mi["activities"].nil?
-        mi["activities"].each { |a|           
-          unless a["challenges"].nil? || a["challenges"].empty?
-            a["challenges"].each {|c|
-              objective_result = DESTINY_MANIFEST.objective(c.dig("objective", "objectiveHash"))
-              if objective_result.dig("displayProperties","name") == "Weekly Dungeon Challenge" 
-                current_dungeon_rotator_name = result.dig("displayProperties","name").to_s
-              end
-              if objective_result.dig("displayProperties","name") == "Weekly Raid Challenge" 
-                current_raid_rotator_name = result.dig("displayProperties","name").to_s
-              end
-            }
+Restiny.get("Destiny2/Milestones").each {  |m, mi| 
+  result = DESTINY_MANIFEST.milestone(mi["milestoneHash"])
+  if result.dig("displayProperties","name") == "Nightfall Weekly Score"   
+    current_nightfall_strike_rotator_name = DESTINY_MANIFEST.activity(mi["activities"][0]["activityHash"]).dig("displayProperties","description")
+  end
+  unless mi["activities"].nil?
+    mi["activities"].each { |a|           
+      unless a["challengeObjectiveHashes"].nil? || a["challengeObjectiveHashes"].empty?
+        a["challengeObjectiveHashes"].each {|c|
+          objective_result = DESTINY_MANIFEST.objective(c)
+          if objective_result.dig("displayProperties","name") == "Weekly Dungeon Challenge" 
+            current_dungeon_rotator_name = result.dig("displayProperties","name").to_s
+          end
+          if objective_result.dig("displayProperties","name") == "Weekly Raid Challenge" 
+            current_raid_rotator_name = result.dig("displayProperties","name").to_s
           end
         }
       end
-    end
+    }
   end
 }
-#https://github.com/Bungie-net/api/issues/1836 <- Grasp Of Avarice not showing in public milestones
-#using my own profile milestones as a workaround
-#delete the above and uncomment the line below once fixed by Bungie
-# Restiny.get("Destiny2/Milestones").each {  |m, mi| 
-#   if mi["startDate"]
-#     if mi["startDate"]< Time.now && Time.now < mi["endDate"]
-#       result = DESTINY_MANIFEST.milestone(mi["milestoneHash"])
-#       unless mi["activities"].nil?
-#         mi["activities"].each { |a|           
-#           unless a["challengeObjectiveHashes"].nil? || a["challengeObjectiveHashes"].empty?
-#             a["challengeObjectiveHashes"].each {|c|
-#               objective_result = DESTINY_MANIFEST.objective(c)
-#               if objective_result.dig("displayProperties","name") == "Weekly Dungeon Challenge" 
-#                 @weekly_dungeon_rotator_name = result.dig("displayProperties","name").to_s
-#               end
-#               if objective_result.dig("displayProperties","name") == "Weekly Raid Challenge" 
-#                 @weekly_raid_rotator_name = result.dig("displayProperties","name").to_s
-#               end
-#             }
-#           end
-#         }
-#       end
-#     end
-#   end
-# }
+
+#https://github.com/Bungie-net/api/issues/1836 <- Grasp Of Avarice not showing in public milestones - workaround below, assumes no rotator = GoA
+if current_dungeon_rotator_name.nil?
+  current_dungeon_rotator_name = "Grasp of Avarice"
+end
+
+def generate_weekly_rotation(current_activity_name, rotations, tuesday, last_weekly_reset)
+  CalendarEntry.create(name: rotations.rotate(rotations.index(current_activity_name) + ((tuesday - last_weekly_reset).to_i))[0], 
+                       start_date: tuesday, type: WeeklyCalendarEntry)
+end
 
 season_tuesdays.each{ |tuesday|
-  week_offset = (tuesday - last_weekly_reset).to_i # 0 if current week, -1 if last week, 1 if next week, etc
-
-  #Raids
-  raid_rotator_array = known_rotations["season-#{current_season_number}"]["raids"]
-  current_raid_rotator_index = raid_rotator_array.index(current_raid_rotator_name)
-  raid_name = raid_rotator_array.rotate(current_raid_rotator_index + week_offset)[0]
-  CalendarEntry.create(name: raid_name, start_date: tuesday, type: WeeklyCalendarEntry)
-
-  #Dungeons
-  dungeon_rotator_array = known_rotations["season-#{current_season_number}"]["dungeons"]
-  current_dungeon_rotator_index = dungeon_rotator_array.index(current_dungeon_rotator_name)
-  dungeon_name = dungeon_rotator_array.rotate(current_dungeon_rotator_index + week_offset)[0]
-  CalendarEntry.create(name: dungeon_name, start_date: tuesday, type: WeeklyCalendarEntry)
-
-
+  generate_weekly_rotation(current_raid_rotator_name, known_rotations["season-#{current_season_number}"]["raids"], tuesday, last_weekly_reset)
+  generate_weekly_rotation(current_dungeon_rotator_name, known_rotations["season-#{current_season_number}"]["dungeons"], tuesday, last_weekly_reset)
+  generate_weekly_rotation(current_nightfall_strike_rotator_name, known_rotations["season-#{current_season_number}"]["nightfall-strikes"], tuesday, last_weekly_reset)
 }
 
 puts "#{WeeklyCalendarEntry.count} WeeklyCalendarEntries present"

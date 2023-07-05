@@ -65,16 +65,29 @@ if current_dungeon_rotator_name.nil?
   current_dungeon_rotator_name = "Grasp of Avarice"
 end
 
-def generate_weekly_rotation(current_activity_name, rotations, tuesday, last_weekly_reset)
-  CalendarEntry.create(name: rotations.rotate(rotations.index(current_activity_name) + ((tuesday - last_weekly_reset).to_i))[0], 
-                       start_date: tuesday, type: WeeklyCalendarEntry)
+def generate_rotation(known_date_activity_name, rotations, day, known_date, type)
+  CalendarEntry.create(name: rotations.rotate(rotations.index(known_date_activity_name) + ((day - known_date).to_i))[0], 
+                       start_date: day, type: type)
 end
 
-season_tuesdays.each{ |tuesday|
-  generate_weekly_rotation(current_raid_rotator_name, known_rotations["season-#{current_season_number}"]["raids"], tuesday, last_weekly_reset)
-  generate_weekly_rotation(current_dungeon_rotator_name, known_rotations["season-#{current_season_number}"]["dungeons"], tuesday, last_weekly_reset)
-  generate_weekly_rotation(current_nightfall_strike_rotator_name, known_rotations["season-#{current_season_number}"]["nightfall-strikes"], tuesday, last_weekly_reset)
-}
+if known_rotations["season-#{current_season_number}"].empty?
+  raise "Rotations for this season not yet defined in config/known_rotations.yml"
+else
+  season_tuesdays.each{ |tuesday|
+    generate_rotation(current_raid_rotator_name, known_rotations["season-#{current_season_number}"]["raids"], tuesday, last_weekly_reset, WeeklyCalendarEntry)
+    generate_rotation(current_dungeon_rotator_name, known_rotations["season-#{current_season_number}"]["dungeons"], tuesday, last_weekly_reset, WeeklyCalendarEntry)
+    generate_rotation(current_nightfall_strike_rotator_name, known_rotations["season-#{current_season_number}"]["nightfall-strikes"], tuesday, last_weekly_reset, WeeklyCalendarEntry)
+  }
+
+  season_days.each{ |day| 
+    unless known_rotations["season-#{current_season_number}"]["legend-lost-sector-locations"].empty? #not known until fully cycled once, may be missing
+      #based off first day value as no value can be pulled from the API for current
+      generate_rotation(known_rotations["season-#{current_season_number}"]["legend-lost-sector-locations"][0],
+                              known_rotations["season-#{current_season_number}"]["legend-lost-sector-locations"],
+                              day, current_season_start, DailyCalendarEntry )
+    end
+  }
+end
 
 puts "#{WeeklyCalendarEntry.count} WeeklyCalendarEntries present"
 puts "#{DailyCalendarEntry.count} DailyCalendarEntries present"

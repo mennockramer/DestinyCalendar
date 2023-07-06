@@ -3,14 +3,12 @@
   Week <%= @current_season_start.step(week[0], 7).count%><br>
 
   <% WeeklyCalendarEntry.where(start_date: week[0]).each do |calendar_entry|%>
-    <%= calendar_entry.name%>
+    <%= calendar_entry.name%><br>
   <%end%>
 
 </td>
 
-  <% week.each do |day| %>
-    <%= render partial: 'day',  locals: {day: day} %>
-  <% end %>
+  <%= render partial: 'day', collection: week%>
 </tr>
 
 

@@ -72,4 +72,4 @@ group :test do
 end
 
 # Non-standard gems
-gem "restiny"
+gem "restiny", "~> 3"

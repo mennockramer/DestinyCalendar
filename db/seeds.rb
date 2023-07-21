@@ -8,7 +8,7 @@
 
 CalendarEntry.destroy_all
 
-@current_season_manifest = DESTINY_MANIFEST.season(Restiny.get("Settings").dig("destiny2CoreSettings", "currentSeasonHash"))
+@current_season_manifest = DESTINY_MANIFEST.season(Restiny.api_get("Settings").dig("destiny2CoreSettings", "currentSeasonHash"))
 @current_season_start = @current_season_manifest["startDate"].to_date
 @current_season_end = @current_season_manifest["endDate"].to_date
 @current_season_last_day = @current_season_end - 1.days
@@ -36,7 +36,7 @@ end
 #Current values
 current_weekly_rotator_names = {}
 
-Restiny.get("Destiny2/Milestones").each {  |m, mi| 
+Restiny.api_get("Destiny2/Milestones").each {  |m, mi| 
   result = DESTINY_MANIFEST.milestone(mi["milestoneHash"])
   if result.dig("displayProperties","name") == "Nightfall Weekly Score"   
     current_weekly_rotator_names["nightfall-strikes"] = DESTINY_MANIFEST.activity(mi["activities"][0]["activityHash"]).dig("displayProperties","description")

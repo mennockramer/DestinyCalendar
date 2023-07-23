@@ -72,4 +72,4 @@ group :test do
 end
 
 # Non-standard gems
-gem "restiny", "~> 3"
+gem 'restiny', :git => 'https://github.com/waferbaby/restiny.git'

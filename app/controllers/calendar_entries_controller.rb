@@ -3,7 +3,9 @@ class CalendarEntriesController < ApplicationController
   #replace with auth based on bungie login
 
   def index
-    @calendar_entries = CalendarEntry.all
+    @seed_calendar_entries = CalendarEntry.where(source: :seed)
+    @manual_calendar_entries = CalendarEntry.where(source: :manual)
+    @live_calendar_entries = CalendarEntry.where(source: :live)
   end
 
   def show 
@@ -15,7 +17,7 @@ class CalendarEntriesController < ApplicationController
   end
 
   def create
-    @calendar_entry = CalendarEntry.new(calendar_entry_params)
+    @calendar_entry = CalendarEntry.new(calendar_entry_params.merge({source: :manual}))
 
     if @calendar_entry.save
       redirect_to @calendar_entry

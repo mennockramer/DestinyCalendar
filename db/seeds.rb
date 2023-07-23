@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-CalendarEntry.destroy_all
+CalendarEntry.where(source: :seed).destroy_all
 
 @current_season_manifest = DESTINY_MANIFEST.season(Restiny.api_get("Settings").dig("destiny2CoreSettings", "currentSeasonHash"))
 @current_season_start = @current_season_manifest["startDate"].to_date
@@ -64,19 +64,19 @@ unless current_weekly_rotator_names.has_key?("dungeons")
 end
 
 def generate_rotations(known_date_activity_name, rotator_name, known_date, type)
-  if @known_rotations["season-#{@current_season_number}"][rotator_name].nil?
+  rotations = @known_rotations.dig("season-#{@current_season_number}",rotator_name)
+  if rotations.nil? || rotations.empty?
     puts "Rotations not defined for Season #{@current_season_number} #{rotator_name}"
   else
-    rotations = @known_rotations["season-#{@current_season_number}"][rotator_name]
     if type == :weekly
       @season_tuesdays.each{ |day|
         CalendarEntry.create(name: rotations.rotate(rotations.index(known_date_activity_name) + ((day - known_date).to_i))[0], 
-                            start_date: day, type: WeeklyCalendarEntry)
+                            start_date: day, type: WeeklyCalendarEntry, source: 'seed')
       }
     elsif type == :daily
       @season_days.each{ |day|
         CalendarEntry.create(name: rotations.rotate(rotations.index(known_date_activity_name) + ((day - known_date).to_i))[0], 
-                            start_date: day, type: DailyCalendarEntry)
+                            start_date: day, type: DailyCalendarEntry, source: 'seed')
       }
     end
   end
@@ -86,8 +86,8 @@ if @known_rotations["season-#{@current_season_number}"].empty?
   raise "Rotations for this season not yet defined in config/known_rotations.yml"
 else
 
-  current_weekly_rotator_names.each { |rotator_name, activty_name|
-    generate_rotations(activty_name, rotator_name, @last_weekly_reset, :weekly)
+  current_weekly_rotator_names.each { |rotator_name, activity_name|
+    generate_rotations(activity_name, rotator_name, @last_weekly_reset, :weekly)
   }
 
   unless @known_rotations["season-#{@current_season_number}"]["legend-lost-sector-locations"].empty? #not known until fully cycled once, may be missing
@@ -98,5 +98,5 @@ else
   
 end
 
-puts "#{WeeklyCalendarEntry.count} WeeklyCalendarEntries present"
-puts "#{DailyCalendarEntry.count} DailyCalendarEntries present"
+puts "#{WeeklyCalendarEntry.where(source: :seed).count} WeeklyCalendarEntries seeded"
+puts "#{DailyCalendarEntry.where(source: :seed).count} DailyCalendarEntries seeded"

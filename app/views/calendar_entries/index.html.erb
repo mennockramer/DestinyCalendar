@@ -1,15 +1,33 @@
+<%= link_to "Return to Calendar", calendar_index_path %>
 <h1>Calendar Entries</h1>
+<%= link_to "New Calendar Entry", new_calendar_entry_path %><br>
 
+<h3>Manual Calendar Entries</h3>
 <ul>
-  <% @calendar_entries.each do |calendar_entry| %>
+  <% @manual_calendar_entries.each do |calendar_entry| %>
       <li>
         <%= link_to (calendar_entry.name+": "+ calendar_entry.start_date.to_s), calendar_entry %> 
       </li>
   <% end %>
 </ul>
 
-<%= link_to "New Calendar Entry", new_calendar_entry_path %><br>
+<h3>Live-generated Calendar Entries</h3>
+<ul>
+  <% @live_calendar_entries.each do |calendar_entry| %>
+      <li>
+        <%= link_to (calendar_entry.name+": "+ calendar_entry.start_date.to_s), calendar_entry %> 
+      </li>
+  <% end %>
+</ul>
+
+<h3>Seeded Calendar Entries</h3>
+<ul>
+  <% @seed_calendar_entries.each do |calendar_entry| %>
+      <li>
+        <%= link_to (calendar_entry.name+": "+ calendar_entry.start_date.to_s), calendar_entry %> 
+      </li>
+  <% end %>
+</ul>
 
 
 
-<%= link_to "Return to Calendar", calendar_index_path %>

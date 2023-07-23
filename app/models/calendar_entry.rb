@@ -1,6 +1,10 @@
 class CalendarEntry < ApplicationRecord
-  validates :name, :start_date, presence: true
   
+  VALID_SOURCES = ['seed', 'live', 'manual']
+
+  validates :name, :start_date, :source, presence: true
+  validates :source, inclusion: { in: VALID_SOURCES }
+
   def self.inherited(subclass)
     super
     def subclass.model_name

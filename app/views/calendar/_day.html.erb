@@ -1,6 +1,6 @@
 <td class="calendar"<%= ", bgcolor=grey" if day == @destiny_today %>>
 <%= day %>
- <% DailyCalendarEntry.where(start_date: day).each do |calendar_entry|%><br>
+ <% @daily_calendar_entries[day].each do |calendar_entry|%><br>
     <%= calendar_entry.name%>
   <%end%>
 </td>

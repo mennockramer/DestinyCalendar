@@ -14,5 +14,9 @@ class CalendarController < ApplicationController
       @destiny_today = Time.now.utc.to_date - 1.days 
     end
 
+    @daily_calendar_entries = DailyCalendarEntry.all.group_by(&:start_date)
+    @weekly_calendar_entries = WeeklyCalendarEntry.all.group_by(&:start_date)
+    @event_calendar_entries = EventCalendarEntry.all.group_by(&:start_date)
+
   end
 end

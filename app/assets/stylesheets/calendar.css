@@ -15,3 +15,7 @@ table.calendar, th.calendar, td.calendar {
   border: 1px solid white;
   vertical-align: top;
 }
+
+input.hex_colour_text_field {
+  width:60px
+}

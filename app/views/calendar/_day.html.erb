@@ -1,4 +1,4 @@
-<td class="calendar"<%= ", bgcolor=grey" if day == @destiny_today %>>
+<td class="calendar"<%= ", bgcolor="+@table_highlight_hex_colour if day == @destiny_today %>>
 <%= day %>
  <% @daily_calendar_entries[day].each do |calendar_entry|%><br>
     <%= calendar_entry.name%>

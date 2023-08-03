@@ -1,0 +1,1 @@
+MiniMagick.configure do |config| config.cli = :imagemagick end #forced legacy, pain to install ImageMagick7 on Fedora

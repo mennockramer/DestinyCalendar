@@ -1,20 +1,14 @@
 Season <%= @current_season_number%>: <%= @current_season_name%>: <%= @current_season_start%> - <%= @current_season_end%>
-<table class="calendar">
-  <tr>
-    <th class="calendar">Week</th>
-    <th class="calendar">Tuesday</th>
-    <th class="calendar">Wednesday</th>
-    <th class="calendar">Thursday</th>
-    <th class="calendar">Friday</th>
-    <th class="calendar">Saturday</th>
-    <th class="calendar">Sunday</th>
-    <th class="calendar">Monday</th>
-  </tr>
-  <% @current_season_start.upto(@current_season_last_day).each_slice(7) do |week|%>
-    <%= render partial: 'week',  locals: {week: week} %>
-  <% end %>
-</table>
 
-<%= link_to "Calendar Entry List", calendar_entries_url%>
+<%= render 'calendar_table'%>
+
+<h2><%= link_to "Calendar Entry List", calendar_entries_url%></h2>
+
+<script type="module">
+  import $ from 'jquery'
+  $(document).ready(function(){
+    Inputmask().mask(document.querySelectorAll("input"));
+  });
+</script> 
 
 

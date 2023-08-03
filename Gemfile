@@ -73,3 +73,4 @@ end
 
 # Non-standard gems
 gem 'restiny', :git => 'https://github.com/waferbaby/restiny.git'
+gem "mini_magick"

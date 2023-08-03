@@ -1,0 +1,38 @@
+<%= turbo_stream_from "calendar_table" %>
+<%= turbo_frame_tag 'calendar_table' do %>
+
+<%= form_with url: calendar_index_url, format: :turbo_stream, method: :get do |f|%>
+  <%= f.label :table_background_hex_colour, "Background hex colour:" %>
+  <%= f.text_field :table_background_hex_colour, class: "hex_colour_text_field", data: {inputmask: "'mask': '######'"}%>
+  <%= f.label :table_text_hex_colour, "Text hex colour:" %>
+  <%= f.text_field :table_text_hex_colour, class: "hex_colour_text_field", data: {inputmask: "'mask': '######'"}%>
+  <%= f.label :table_highlight_hex_colour, "Highlight hex colour:" %>
+  <%= f.text_field :table_highlight_hex_colour, class: "hex_colour_text_field", data: {inputmask: "'mask': '######'"}%>
+  <br>
+  <%= f.label :table_background_image_url, "Background image URL:" %>
+  <%= f.text_field :table_background_image_url %>
+  <%= f.label :table_auto_colour, "Auto-colour text:" %>
+  <%= f.check_box :table_auto_colour %>
+  <%= f.submit "Update visuals" %>
+<% end %>
+
+  <table class="calendar" style="<%= 
+     " background-color:#"+ @table_background_hex_colour.to_s +
+     "; color:#"+ @table_text_hex_colour.to_s
+    %>" background=<%=@table_background_image_url.to_s%>
+  >
+    <tr>
+      <th class="calendar">Week</th>
+      <th class="calendar">Tuesday</th>
+      <th class="calendar">Wednesday</th>
+      <th class="calendar">Thursday</th>
+      <th class="calendar">Friday</th>
+      <th class="calendar">Saturday</th>
+      <th class="calendar">Sunday</th>
+      <th class="calendar">Monday</th>
+    </tr>
+    <% @current_season_start.upto(@current_season_last_day).each_slice(7) do |week|%>
+      <%= render partial: 'week',  locals: {week: week} %>
+    <% end %>
+  </table>
+<% end %>

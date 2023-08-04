@@ -18,9 +18,9 @@
 
   <table class="calendar" style="<%= 
      " background-color:#"+ @table_background_hex_colour.to_s +
-     "; color:#"+ @table_text_hex_colour.to_s
-    %>" background=<%=@table_background_image_url.to_s%>
-  >
+     "; color:#"+ @table_text_hex_colour.to_s +
+     "; background-size: contain;"
+    %>" background=<%=@table_background_image_url.to_s%> >
     <tr>
       <th class="calendar">Week</th>
       <th class="calendar">Tuesday</th>

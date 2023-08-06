@@ -74,3 +74,7 @@ end
 # Non-standard gems
 gem 'restiny', :git => 'https://github.com/waferbaby/restiny.git'
 gem "mini_magick"
+
+#Users and OAuth2
+gem 'devise'
+gem 'omniauth-bungie-oauth2'

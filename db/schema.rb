@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_23_122734) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_06_150757) do
   create_table "calendar_entries", force: :cascade do |t|
     t.string "name"
     t.string "icon_path"
@@ -19,6 +19,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_23_122734) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "source"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.datetime "remember_created_at"
+    t.string "uuid"
+    t.string "bungie_name"
+    t.integer "discriminator"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

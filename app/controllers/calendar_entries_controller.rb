@@ -1,6 +1,6 @@
 class CalendarEntriesController < ApplicationController
-  # http_basic_authenticate_with name: "dhh", password: "secret"
-  #replace with auth based on bungie login
+  before_action :authenticate_user!
+  before_action :
 
   def index
     @seed_calendar_entries = CalendarEntry.where(source: :seed)
